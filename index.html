@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6d45c5">
+  <title>Estuda Plus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">📚 Estuda <span>Plus</span></div>
+    <p>Aprenda no seu ritmo. Evolua todos os dias.</p>
+  </header>
 
+  <nav class="menu">
+    <button onclick="abrirTela('inicio')">Início</button>
+    <button onclick="abrirTela('materias')">Matérias</button>
+    <button onclick="abrirTela('atividades')">Atividades</button>
+    <button onclick="abrirTela('simulado')">Simulado</button>
+    <button onclick="abrirTela('biblioteca')">Biblioteca</button>
+    <button onclick="abrirTela('progresso')">Meu progresso</button>
+  </nav>
+
+  <main>
+    <section id="inicio" class="tela">
+      <div class="hero">
+        <p class="etiqueta">SUA JORNADA DE APRENDIZADO</p>
+        <h1>Seu próximo nível começa aqui! ✨</h1>
+        <p>Pratique, teste seus conhecimentos e descubra o quanto você pode aprender.</p>
+        <button class="destaque" onclick="abrirTela('materias')">Explorar matérias</button>
+      </div>
+
+      <div class="resumo">
+        <article class="cartao">
+          <span>🏆</span><p>Pontos</p><strong id="pontosInicio">0</strong>
+        </article>
+        <article class="cartao">
+          <span>📝</span><p>Respondidas</p><strong id="respondidasInicio">0</strong>
+        </article>
+        <article class="cartao">
+          <span>🎯</span><p>Taxa de acerto</p><strong id="taxaInicio">0%</strong>
+        </article>
+      </div>
+
+      <div class="painel">
+        <h2>Continue aprendendo</h2>
+        <p>Escolha uma matéria, selecione a dificuldade e comece a praticar.</p>
+        <button onclick="abrirTela('atividades')">Começar atividades</button>
+      </div>
+    </section>
+
+    <section id="materias" class="tela escondida">
+      <h1>📚 Todas as matérias</h1>
+      <p>Escolha uma disciplina para ver suas atividades.</p>
+      <label for="nivel">Nível escolar</label>
+      <select id="nivel">
+        <option value="ambos">Fundamental e Médio</option>
+        <option value="fundamental">Ensino Fundamental</option>
+        <option value="medio">Ensino Médio</option>
+      </select>
+      <div id="listaMaterias" class="grade"></div>
+    </section>
+
+    <section id="atividades" class="tela escondida">
+      <h1>📝 Central de atividades</h1>
+      <div class="filtros">
+        <label>Matéria
+          <select id="filtroMateria"></select>
+        </label>
+        <label>Dificuldade
+          <select id="filtroDificuldade">
+            <option value="todas">Todas</option>
+            <option value="Fácil">Fácil</option>
+            <option value="Médio">Médio</option>
+            <option value="Difícil">Difícil</option>
+          </select>
+        </label>
+        <label>Tipo
+          <select id="filtroTipo">
+            <option value="atividade">Prática por matéria</option>
+            <option value="desafio">Desafio misto</option>
+          </select>
+        </label>
+      </div>
+      <div class="painel">
+        <h2 id="tituloAtividade">Prepare-se para praticar</h2>
+        <p id="infoAtividade">Selecione as opções acima e comece.</p>
+        <button class="destaque" onclick="iniciarAtividade()">Começar agora</button>
+      </div>
+
+      <div id="areaQuestao" class="painel escondida" aria-live="polite">
+        <div class="linha">
+          <span id="etiquetaMateria" class="etiqueta"></span>
+          <span id="etiquetaDificuldade" class="etiqueta"></span>
+        </div>
+        <div class="barra"><div id="barraProgresso"></div></div>
+        <p id="contadorQuestao"></p>
+        <h2 id="textoPergunta"></h2>
+        <div id="opcoes" class="opcoes"></div>
+        <p id="resultadoResposta"></p>
+        <div id="explicacao" class="explicacao"></div>
+        <button id="botaoProxima" class="destaque escondido" onclick="proximaQuestao()">Próxima questão</button>
+      </div>
+    </section>
+
+    <section id="simulado" class="tela escondida">
+      <h1>⏱️ Simulados</h1>
+      <div class="painel">
+        <p>Treine como em uma prova, com questões variadas e tempo limitado.</p>
+        <label for="tempoSimulado">Duração</label>
+        <select id="tempoSimulado">
+          <option value="5">5 minutos — treino rápido</option>
+          <option value="15">15 minutos — simulado médio</option>
+          <option value="30">30 minutos — simulado longo</option>
+        </select>
+        <label for="qtdSimulado">Quantidade de questões</label>
+        <select id="qtdSimulado">
+          <option value="10">10 questões</option>
+          <option value="20">20 questões</option>
+        </select>
+        <p id="relogio" class="relogio">05:00</p>
+        <button class="destaque" onclick="iniciarSimulado()">Iniciar simulado</button>
+        <button onclick="encerrarSimulado()">Encerrar simulado</button>
+        <p id="estadoSimulado" aria-live="polite">O cronômetro começa quando você iniciar.</p>
+      </div>
+    </section>
+
+    <section id="biblioteca" class="tela escondida">
+      <h1>📖 Biblioteca de estudos</h1>
+      <p>Escolha uma matéria para consultar um resumo inicial.</p>
+      <div id="listaResumos" class="grade"></div>
+      <article id="resumoAberto" class="painel escondido"></article>
+    </section>
+
+    <section id="progresso" class="tela escondida">
+      <h1>📈 Meu progresso</h1>
+      <div class="resumo">
+        <article class="cartao"><p>Pontos</p><strong id="pontosTotal">0</strong></article>
+        <article class="cartao"><p>Respondidas</p><strong id="respondidasTotal">0</strong></article>
+        <article class="cartao"><p>Acertos</p><strong id="acertosTotal">0</strong></article>
+      </div>
+      <div class="painel">
+        <h2>Desempenho por matéria</h2>
+        <div id="desempenhoMateria"></div>
+        <button onclick="limparProgresso()">Apagar meu histórico</button>
+      </div>
+      <div class="painel">
+        <h2>Últimas atividades</h2>
+        <div id="historico"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Estuda Plus © 2026</p>
+    <p>Feito para aprender, praticar e evoluir. 💜</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
